@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "548967203383",
+    "project_id": "totemic-fact-477116-k2",
+    "storage_bucket": "totemic-fact-477116-k2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548967203383:android:0da41b973b1495ae77b5b2",
+        "android_client_info": {
+          "package_name": "com.example.fast_route"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAA77tTopk1LA-0SSGFmK_1JdHE4TF1Uzg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
