@@ -1,11 +1,16 @@
-import 'package:fast_route/features/1_auth/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'core/config/firebase_options.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
-import 'services/auth_service.dart';
+
+import 'core/config/firebase_options.dart';
+
+import 'package:fast_route/features/1_auth/screens/login_screen.dart';
 import 'features/1_auth/providers/auth_provider.dart';
+
+import 'services/auth_service.dart';
+import 'services/firestore_service.dart';
+import 'services/geocoding_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,12 +37,18 @@ void main() async {
     MultiProvider(
       providers: [
         Provider<AuthService>(
-          create: (_) => AuthService()
-          ),
+          create: (_) => AuthService()),
+        
+        Provider<FirestoreService>(
+          create:(_) => FirestoreService()),
+
+        Provider<GeocodingService>(
+          create: (_) => GeocodingService()),
 
         ChangeNotifierProvider<AuthProvider>(
           create: (context) => AuthProvider(
-            context.read<AuthService>()
+            context.read<AuthService>(),
+            context.read<FirestoreService>(),
             ),
         ),
 
