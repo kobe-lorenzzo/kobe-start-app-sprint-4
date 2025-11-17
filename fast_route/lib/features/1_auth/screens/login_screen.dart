@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final authProvider = context.watch<AuthProvider>();
     final Color textColor = const Color.fromARGB(255, 123, 74, 255);
     final Color textColorLight = const Color.fromARGB(255, 166, 134, 255);
-    final Color backgroundColor = const Color.fromARGB(255, 48, 48, 48);
+    final Color backgroundColor = const Color.fromARGB(255, 68, 68, 68);
     final Color backgroundColorLight = const Color.fromARGB(255, 175, 175, 175);
   
 
@@ -115,6 +115,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     const CircularProgressIndicator()
                   else
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: textColor,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                      ),
                       onPressed: _handleLogin,
                       child: const Text('Entrar'),
                     ),

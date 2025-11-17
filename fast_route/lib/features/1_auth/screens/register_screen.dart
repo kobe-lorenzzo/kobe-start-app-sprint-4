@@ -16,7 +16,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final Color textColor = const Color.fromARGB(255, 123, 74, 255);
   final Color textColorLight = const Color.fromARGB(255, 166, 134, 255);
-  final Color backgroundColor = const Color.fromARGB(255, 48, 48, 48);
+  final Color backgroundColor = const Color.fromARGB(255, 68, 68, 68);
   final Color backgroundColorLight = const Color.fromARGB(255, 175, 175, 175);
 
   Future<void> _handleRegister() async {
@@ -51,6 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final authProvider = context.watch<AuthProvider>();
 
     return Scaffold(
+      backgroundColor: backgroundColorLight,
       appBar:  AppBar(
         title: const Text("Criar Conta"),
         backgroundColor: backgroundColor,
