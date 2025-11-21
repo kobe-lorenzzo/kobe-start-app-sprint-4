@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../services/firestore_service.dart';
-import '../../../services/geocoding_service.dart';
 import '../../../models/appointment_model.dart';
 
 class AgendaProvider extends ChangeNotifier {
