@@ -3,7 +3,11 @@ import 'package:geocoding/geocoding.dart';
 class GeocodingService {
   Future<Location?> getCoordinatesFromAddress(String address) async {
     try {
-      List<Location> locations = await locationFromAddress(address);
+
+      String cleanAddress = address.split(',').take(3).join(',');
+      print('DEBUG GEOC: Tentando buscar o endereço: $cleanAddress');
+
+      List<Location> locations = await locationFromAddress(cleanAddress);
 
       if (locations.isNotEmpty) {
         return locations.first;

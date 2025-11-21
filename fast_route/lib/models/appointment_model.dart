@@ -22,7 +22,7 @@ class AppointmentModel {
   factory AppointmentModel.fromMap(Map<String, dynamic> map, String documentId) {
     return AppointmentModel(
       id: documentId, 
-      userId: map['useId'] ?? '', 
+      userId: map['userId'] ?? '', 
       title: map['title'] ?? '', 
       address: map['address'] ?? '', 
       latitude: (map['latitude'] as num).toDouble(), 
