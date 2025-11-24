@@ -1,4 +1,4 @@
-import 'package:fast_route/features/1_auth/screens/create_appointment_screen.dart';
+import 'package:fast_route/features/2_agenda/screens/create_appointment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';

@@ -1,10 +1,10 @@
-import 'package:fast_route/features/1_auth/screens/scheduler_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../core/config/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import 'register_screen.dart';
+import '../../home_wrapper.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
         );
 
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => AgendaListScreen()),
+          MaterialPageRoute(builder: (_) => const HomeWrapper()),
         );
       }
     } catch (e) {
