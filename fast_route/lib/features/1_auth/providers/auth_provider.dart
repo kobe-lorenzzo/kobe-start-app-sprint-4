@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../services/auth_service.dart';
+import '../../../services/firestore_service.dart';
 
 class AuthProvider extends ChangeNotifier {
   final AuthService _authService;
+  final FirestoreService _firestoreService;
 
-  AuthProvider(this._authService);
+  AuthProvider(this._authService, this._firestoreService);
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -50,10 +52,12 @@ class AuthProvider extends ChangeNotifier {
     clearError();
 
     try {
-      final usar = await _authService.createUserWithEmailAndPassword(email, password);
+      final user = await _authService.createUserWithEmailAndPassword(email, password);
 
-      if (usar != null) {
+      if (user != null) {
         _user = user;
+
+        await _firestoreService.saveUser(user);
 
         _setLoading(false);
         return true;

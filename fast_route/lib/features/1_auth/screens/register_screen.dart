@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/config/theme/app_colors.dart';
 import '../providers/auth_provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -13,11 +14,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
-  final Color textColor = const Color.fromARGB(255, 123, 74, 255);
-  final Color textColorLight = const Color.fromARGB(255, 166, 134, 255);
-  final Color backgroundColor = const Color.fromARGB(255, 48, 48, 48);
-  final Color backgroundColorLight = const Color.fromARGB(255, 175, 175, 175);
 
   Future<void> _handleRegister() async {
     if (!_formKey.currentState!.validate()){
@@ -51,10 +47,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final authProvider = context.watch<AuthProvider>();
 
     return Scaffold(
+      backgroundColor: AppColors.backgroundLight,
       appBar:  AppBar(
         title: const Text("Criar Conta"),
-        backgroundColor: backgroundColor,
-        foregroundColor: textColor,
+        backgroundColor: AppColors.backgroundDark,
+        foregroundColor: AppColors.textPurple,
         centerTitle: true,
       ),
       body: Center(
@@ -63,7 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Container(
             padding: const EdgeInsets.all(24.0),
             decoration: BoxDecoration(
-              color: backgroundColor,
+              color: AppColors.backgroundDark,
               borderRadius: BorderRadius.circular(16.0),
             ),
             child: Form(
@@ -76,12 +73,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: "E-mail",
-                      labelStyle: TextStyle(color: textColor),
+                      labelStyle: TextStyle(color: AppColors.textPurple),
                       enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white24),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textColorLight),
+                        borderSide: BorderSide(color: AppColors.textPurpleLight),
                       ),
                     ),
                     keyboardType: TextInputType.emailAddress,
@@ -95,12 +92,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     style: const TextStyle(color:Colors.white),
                     decoration: InputDecoration(
                       labelText: "Senha (mín. 6 caracteres)",
-                      labelStyle: TextStyle(color: textColor),
+                      labelStyle: TextStyle(color: AppColors.textPurple),
                       enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white24),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textColorLight),
+                        borderSide: BorderSide(color: AppColors.textPurpleLight),
                       ),
                     ),
                     obscureText: true,
@@ -112,12 +109,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                   if (authProvider.isLoading)
                     CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(textColorLight),
+                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.textPurpleLight),
                     )
                   else 
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: textColor,
+                        backgroundColor: AppColors.textPurple,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                       ),
@@ -129,7 +126,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     if (authProvider.errorMessage != null)
                     Text(
                       authProvider.errorMessage!,
-                      style: TextStyle(color: Colors.red[300], fontSize: 16),
+                      style: TextStyle(color: AppColors.errorRed, fontSize: 16),
                     ),
                 ],
               )

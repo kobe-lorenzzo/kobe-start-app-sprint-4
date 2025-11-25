@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../core/config/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import 'register_screen.dart';
+import '../../home_wrapper.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -30,8 +32,13 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (success) {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Login feito com sucesso! (Usuário: ${authProvider.user!.email})")),
+        );
+
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const HomeWrapper()),
         );
       }
     } catch (e) {
@@ -44,18 +51,13 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
-    final Color textColor = const Color.fromARGB(255, 123, 74, 255);
-    final Color textColorLight = const Color.fromARGB(255, 166, 134, 255);
-    final Color backgroundColor = const Color.fromARGB(255, 48, 48, 48);
-    final Color backgroundColorLight = const Color.fromARGB(255, 175, 175, 175);
-  
 
     return Scaffold(
-      backgroundColor: backgroundColorLight,
+      backgroundColor: AppColors.backgroundLight,
       appBar: AppBar(
         title: const Text("FAST ROUTE "),
-        backgroundColor: backgroundColor,
-        foregroundColor: textColor,
+        backgroundColor: AppColors.backgroundDark,
+        foregroundColor: AppColors.textPurple,
         centerTitle: true,
       ),
       body: Center(
@@ -64,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Container(
             padding: const EdgeInsets.all(24.0),
             decoration: BoxDecoration(
-              color: backgroundColor,
+              color: AppColors.backgroundDark,
               borderRadius: BorderRadius.circular(16.0),
             ),
             child: Form(
@@ -77,12 +79,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: "E-mail", 
-                      labelStyle: TextStyle(color: textColor),
+                      labelStyle: TextStyle(color: AppColors.textPurple),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white24),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textColorLight),
+                        borderSide: BorderSide(color: AppColors.textPurpleLight),
                       ),
                     ),
                     keyboardType: TextInputType.emailAddress,
@@ -96,12 +98,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: "Senha",
-                      labelStyle: TextStyle(color: textColor),
+                      labelStyle: TextStyle(color: AppColors.textPurple),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white24),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textColorLight),
+                        borderSide: BorderSide(color: AppColors.textPurpleLight),
                         ),
                       ),
                     obscureText: true,
@@ -115,6 +117,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     const CircularProgressIndicator()
                   else
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.textPurple,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                      ),
                       onPressed: _handleLogin,
                       child: const Text('Entrar'),
                     ),
@@ -123,13 +130,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (authProvider.errorMessage != null)
                     Text(
                       authProvider.errorMessage!,
-                      style: const TextStyle(color: Colors.red, fontSize: 16),
+                      style: const TextStyle(color: AppColors.errorRed, fontSize: 16),
                     ),
 
                     const SizedBox(height: 20),
                     TextButton(
                       child: Text("Não tem uma conta? Crie uma aqui.", 
-                      style: TextStyle(color: textColorLight),
+                      style: TextStyle(color: AppColors.textPurpleLight),
                       ),
                       onPressed: () {
                         context.read<AuthProvider>().clearError();
