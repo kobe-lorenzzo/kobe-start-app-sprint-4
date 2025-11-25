@@ -108,6 +108,7 @@ class _MapScreenState extends State<MapScreen> {
         actions: [
           IconButton(
             onPressed: _fetchCurrentLocation, 
+            tooltip: 'Voltar à sua Localização',
             icon: const Icon(Icons.refresh),
           ),
         ],

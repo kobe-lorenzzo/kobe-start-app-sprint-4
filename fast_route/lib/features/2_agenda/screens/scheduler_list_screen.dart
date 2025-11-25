@@ -26,6 +26,7 @@ class AgendaListScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.exit_to_app),
+            tooltip: 'Sair da Conta',
             onPressed: () {
               context.read<AuthProvider>().login('logout', 'logout');
               Navigator.of(context).pushReplacement(
@@ -38,6 +39,7 @@ class AgendaListScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.textPurpleLight,
         child: const Icon(Icons.add),
+        tooltip: 'Criar Nova Taréfa',
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(builder: (_) => const CreateAppointmentScreen()),
@@ -110,75 +112,78 @@ class AgendaListScreen extends StatelessWidget {
                   );
                 },
                 
-                child: Card (
-                  color: AppColors.backgroundDark,
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                child: Semantics(
+                  hint: 'Deslize para a esquerda para excluir o compromisso.',
+                  child: Card (
+                    color: AppColors.backgroundDark,
+                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
 
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 16.0, top: 8.0),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.arrow_back,
-                                color: AppColors.textPurpleLight.withOpacity(0.6), 
-                                size: 20,
-                              ),
-                              const SizedBox(width: 4),
-                              Icon(
-                                Icons.delete,
-                                color: AppColors.textPurpleLight.withOpacity(0.6), 
-                                size: 20,
-                              )
-                            ],
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 16.0, top: 8.0),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.arrow_back,
+                                  color: AppColors.textPurpleLight.withOpacity(0.6), 
+                                  size: 20,
+                                ),
+                                const SizedBox(width: 4),
+                                Icon(
+                                  Icons.delete,
+                                  color: AppColors.textPurpleLight.withOpacity(0.6), 
+                                  size: 20,
+                                )
+                              ],
+                            ),
                           ),
                         ),
+
+                      ListTile( 
+                      leading: CircleAvatar(
+                        backgroundColor: AppColors.textPurpleLight,
+                        foregroundColor: Colors.white,
+                        child: Text(appointment.dateTime.day.toString()),
                       ),
 
-                    ListTile( 
-                    leading: CircleAvatar(
-                      backgroundColor: AppColors.textPurpleLight,
-                      foregroundColor: Colors.white,
-                      child: Text(appointment.dateTime.day.toString()),
-                    ),
-
-                    title: Text(
-                      appointment.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                      title: Text(
+                        appointment.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 4),
-                        Text(
-                          dateFormat.format(appointment.dateTime),
-                          style: const TextStyle(color: AppColors.textPurpleLight),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 4),
+                          Text(
+                            dateFormat.format(appointment.dateTime),
+                            style: const TextStyle(color: AppColors.textPurpleLight),
+                          ),
+                          Text(
+                            appointment.address,
+                            style: const TextStyle(fontSize: 12, color: Colors.white70),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          
+                        ],
+                      ),
+                      onTap: () {
+
+                          }
                         ),
-                        Text(
-                          appointment.address,
-                          style: const TextStyle(fontSize: 12, color: Colors.white70),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        
                       ],
                     ),
-                    onTap: () {
-
-                        }
-                      ),
-                    ],
-                  ),
+                  )
                 )
               );
             }
