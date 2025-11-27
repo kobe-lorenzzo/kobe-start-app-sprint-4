@@ -1,0 +1,32 @@
+appId: com.example.fast_route
+---
+- runFlow:
+    when:
+      visible: "FAST ROUTE "
+    commands:
+      - tapOn: "E-mail"
+      - inputText: "lorenzzoteste@gmail.com"
+      - tapOn: "Senha"
+      - inputText: "1234567"
+
+      - tapOn: "Entrar"
+      - waitForAnimationToEnd
+
+- extendedWaitUntil:
+    visible: "Minha Agenda"
+
+- tapOn:
+    point: "90%, 88%"
+- waitForAnimationToEnd
+
+- tapOn: "Título"
+- inputText: "Faculdade"
+- tapOn: "Endereço"
+- inputText: "Avenida Ipiranga, 6681"
+- tapOn: "Salvar Compromisso"
+- tapOn: "Salvar Compromisso"
+- waitForAnimationToEnd
+
+- tapOn: |-
+    Mapa
+    Tab 2 of 2

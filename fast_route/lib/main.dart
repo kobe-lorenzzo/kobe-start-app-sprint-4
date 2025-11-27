@@ -67,6 +67,19 @@ class MyApp extends StatelessWidget {
       title: 'FAST ROUTE',
       debugShowCheckedModeBanner: false,
 
+      builder: (context, child) {
+        final mediaQueryData = MediaQuery.of(context);
+
+        final restrictedScale = mediaQueryData.textScaleFactor.clamp(1.0, 1.5);
+
+        return MediaQuery(
+          data: mediaQueryData.copyWith(
+            textScaleFactor: restrictedScale,
+          ),
+          child: child!,
+        );
+      },
+
       home: const AuthWrapper(),
     );
   }
