@@ -18,7 +18,7 @@ class MapScreen extends StatefulWidget {
 Future<void>? _locationFuture;
 
 class _MapScreenState extends State<MapScreen> {
-  LatLng _initialCenter = const LatLng(-22.9068, -43.1729);
+  LatLng _initialCenter = const LatLng(-30.0325, -51.2304);
   double _zoom = 13.0;
   Position? _currentPosition;
 
@@ -105,13 +105,7 @@ class _MapScreenState extends State<MapScreen> {
         title: const Text("Mapa"),
         backgroundColor: AppColors.backgroundDark,
         foregroundColor: AppColors.textPurple,
-        actions: [
-          IconButton(
-            onPressed: _fetchCurrentLocation, 
-            tooltip: 'Voltar à sua Localização',
-            icon: const Icon(Icons.refresh),
-          ),
-        ],
+        
       ),
       body: FutureBuilder( // <--- ENVOLVE O CONTEÚDO PARA ESPERAR PELO GPS
         future: _locationFuture,

@@ -119,7 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                       ),
                       onPressed: _handleRegister,
-                      child: const Text("Register"),
+                      child: const Text("Registrar"),
                     ),
                     const SizedBox(height: 12),
 

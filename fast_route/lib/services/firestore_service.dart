@@ -55,7 +55,7 @@ class FirestoreService {
 
   Future<void> deleteAppointment (String appointmentId) async {
     try {
-      await _db.collection("appointment").doc(appointmentId).delete();
+      await _db.collection("appointments").doc(appointmentId).delete();
     } catch (e) {
       print("Erro ao deletar card: $e");
       throw e;

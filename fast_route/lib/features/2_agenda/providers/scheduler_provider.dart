@@ -1,3 +1,4 @@
+import 'package:fast_route/services/notification_services.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../services/firestore_service.dart';
@@ -5,8 +6,9 @@ import '../../../models/appointment_model.dart';
 
 class AgendaProvider extends ChangeNotifier {
   final FirestoreService _firestoreService;
+  final NotificationService _notificationService;
 
-  AgendaProvider(this._firestoreService);
+  AgendaProvider(this._firestoreService, this._notificationService);
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -65,25 +67,25 @@ class AgendaProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> updateAppointment (AppointmentModel appointment) async {
+  Future<bool> updateAppointment(AppointmentModel appointment) async {
     _setLoading(true);
     try {
       await _firestoreService.updateAppointment(appointment);
-      _setLoading(true);
+      _setLoading(false); // Corrigido para false ao terminar
       return true;
     } catch (e) {
-      _setError("Erro ao atualizar cards: $e");
+      _setError("Erro ao atualizar card: $e");
       _setLoading(false);
       return false;
     }
   }
 
-  Future<void> deleteAppointment (String appointmentId) async {
+  Future<void> deleteAppointment(String appointmentId) async {
     _setLoading(true);
     try {
       await _firestoreService.deleteAppointment(appointmentId);
     } catch (e) {
-      _setError("Erro ao deletar dard: $e");
+      _setError("Erro ao deletar card: $e");
     } finally {
       _setLoading(false);
     }
@@ -94,12 +96,47 @@ class AgendaProvider extends ChangeNotifier {
     if (user != null) {
       return _firestoreService.getAppointmentsStream(user.uid);
     } else {
-
       return Stream.value([]); 
     }
   }
 
-  // --- Helpers ---
+  Future<void> checkTimeLeft(AppointmentModel appointment) async {
+    final now = DateTime.now();
+    final difference = appointment.dateTime.difference(now);
+    
+    String title = "Status: ${appointment.title}";
+    String body;
+
+    if (difference.isNegative) {
+      final minutesPast = difference.abs().inMinutes;
+      if (minutesPast < 60) {
+         body = "Este compromisso já passou há $minutesPast minutos.";
+      } else {
+         body = "Este compromisso já passou há ${difference.abs().inHours} horas.";
+      }
+    } else {
+      final days = difference.inDays;
+      final hours = difference.inHours % 24;
+      final minutes = difference.inMinutes % 60;
+
+      if (days > 0) {
+        body = "Faltam $days dias, $hours horas e $minutes minutos.";
+      } else if (hours > 0) {
+        body = "Faltam $hours horas e $minutes minutos.";
+      } else {
+        body = "É logo ali! Faltam apenas $minutes minutos.";
+      }
+    }
+
+    final notificationId = appointment.id.hashCode; 
+
+    await _notificationService.showImmediateNotification(
+      id: notificationId,
+      title: title,
+      body: body,
+    );
+  }
+
   void _setLoading(bool value) {
     _isLoading = value;
     notifyListeners();
@@ -110,5 +147,8 @@ class AgendaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
+  void clearError() {
+    _errorMessage = null;
+    notifyListeners();
+  }
 }
