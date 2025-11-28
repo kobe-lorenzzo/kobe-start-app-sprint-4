@@ -114,7 +114,7 @@ class AgendaListScreen extends StatelessWidget {
                 
                 child: Semantics(
                   hint: 'Deslize para a esquerda para excluir o compromisso.',
-                  child: Card (
+                  child: Card(
                     color: AppColors.backgroundDark,
                     margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     shape: RoundedRectangleBorder(
@@ -123,73 +123,86 @@ class AgendaListScreen extends StatelessWidget {
 
                     child: Column(
                       children: [
+                        
                         Padding(
-                          padding: const EdgeInsets.only(right: 16.0, top: 8.0),
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.arrow_back,
-                                  color: AppColors.textPurpleLight.withOpacity(0.6), 
-                                  size: 20,
-                                ),
-                                const SizedBox(width: 4),
-                                Icon(
-                                  Icons.delete,
-                                  color: AppColors.textPurpleLight.withOpacity(0.6), 
-                                  size: 20,
-                                )
-                              ],
+                          padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.access_time_filled),
+                                color: AppColors.textPurpleLight,
+                                iconSize: 24,
+                                tooltip: "Ver tempo restante",
+                                padding: EdgeInsets.zero, 
+                                constraints: const BoxConstraints(),
+                                onPressed: () {
+                                  context.read<AgendaProvider>().checkTimeLeft(appointment);
+                                },
+                              ),
+
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.arrow_back,
+                                    color: AppColors.textPurpleLight.withOpacity(0.6), 
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Icon(
+                                    Icons.delete,
+                                    color: AppColors.textPurpleLight.withOpacity(0.6), 
+                                    size: 20,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        ListTile( 
+                          leading: CircleAvatar(
+                            backgroundColor: AppColors.textPurpleLight,
+                            foregroundColor: Colors.white,
+                            child: Text(appointment.dateTime.day.toString()),
+                          ),
+
+                          title: Text(
+                            appointment.title,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
-                        ),
-
-                      ListTile( 
-                      leading: CircleAvatar(
-                        backgroundColor: AppColors.textPurpleLight,
-                        foregroundColor: Colors.white,
-                        child: Text(appointment.dateTime.day.toString()),
-                      ),
-
-                      title: Text(
-                        appointment.title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 4),
-                          Text(
-                            dateFormat.format(appointment.dateTime),
-                            style: const TextStyle(color: AppColors.textPurpleLight),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 4),
+                              Text(
+                                dateFormat.format(appointment.dateTime),
+                                style: const TextStyle(color: AppColors.textPurpleLight),
+                              ),
+                              Text(
+                                appointment.address,
+                                style: const TextStyle(fontSize: 12, color: Colors.white70),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
                           ),
-                          Text(
-                            appointment.address,
-                            style: const TextStyle(fontSize: 12, color: Colors.white70),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          
-                        ],
-                      ),
-                      onTap: () {
-
-                          }
+                          onTap: () {
+                          },
                         ),
                       ],
                     ),
-                  )
-                )
+                  ),
+                ),
               );
-            }
+            },
           );
         }
-      ),
+      )
     );
   }
 }

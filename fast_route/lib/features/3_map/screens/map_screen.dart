@@ -105,13 +105,7 @@ class _MapScreenState extends State<MapScreen> {
         title: const Text("Mapa"),
         backgroundColor: AppColors.backgroundDark,
         foregroundColor: AppColors.textPurple,
-        actions: [
-          IconButton(
-            onPressed: _fetchCurrentLocation, 
-            tooltip: 'Voltar à sua Localização',
-            icon: const Icon(Icons.refresh),
-          ),
-        ],
+        
       ),
       body: FutureBuilder( // <--- ENVOLVE O CONTEÚDO PARA ESPERAR PELO GPS
         future: _locationFuture,

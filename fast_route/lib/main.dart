@@ -15,18 +15,14 @@ import 'services/auth_service.dart';
 import 'services/firestore_service.dart';
 import 'services/geocoding_service.dart';
 import 'services/location_service.dart';
+import 'services/notification_services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-    /*await FirebaseAppCheck.instance.activate(
-        webProvider: ReCaptchaV3Provider.debug(), 
-        androidProvider: AndroidProvider.debug, 
-        appleProvider: AppleProvider.debug,
-      );*/
+    await NotificationService().initNotification();
 
   } catch (e) {
     print("ERRO NA INICIALIZAÇÃO $e");
@@ -40,6 +36,7 @@ void main() async {
         Provider<GeocodingService>(create: (_) => GeocodingService()),
         Provider<PlaceService>(create: (_) => PlaceService()),
         Provider<LocationService>(create: (_) => LocationService()),
+        Provider<NotificationService>(create: (_)=> NotificationService()),
 
         ChangeNotifierProvider<AuthProvider>(
           create: (context) => AuthProvider(
@@ -50,6 +47,7 @@ void main() async {
         ChangeNotifierProvider<AgendaProvider>(
           create: (context) => AgendaProvider(
             context.read<FirestoreService>(),
+            context.read<NotificationService>(),
           ),
         )
       ],
