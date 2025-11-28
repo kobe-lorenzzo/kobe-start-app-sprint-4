@@ -11,12 +11,13 @@ class CreateAppointmentScreen extends StatefulWidget {
   const CreateAppointmentScreen({super.key});
 
   @override
-  State<CreateAppointmentScreen> createState() => _CreateAppointmentScreenState();
+  State<CreateAppointmentScreen> createState() =>
+      _CreateAppointmentScreenState();
 }
 
 class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
   final _formKey = GlobalKey<FormState>();
-  
+
   final _titleController = TextEditingController();
   final _addressController = TextEditingController();
 
@@ -75,7 +76,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
     if (!_formKey.currentState!.validate() || _selectedLatitude == null) return;
 
     final provider = context.read<AgendaProvider>();
-    
+
     // Pega esse endereço -> Geocoding -> Latitude/Longitude -> Salva tudo no Firestore
     final success = await provider.createAppointment(
       title: _titleController.text,
@@ -92,7 +93,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
         const SnackBar(content: Text("Compromisso agendado com sucesso!")),
       );
     } else if (mounted) {
-       ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(provider.errorMessage ?? "Erro desconhecido"),
           backgroundColor: AppColors.errorRed,
@@ -146,46 +147,58 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                 TextFormField(
                   controller: _titleController,
                   style: const TextStyle(color: Colors.white),
-                  decoration: _buildInputDecoration("Título", hint: "Ex: Dentista"),
+                  decoration: _buildInputDecoration(
+                    "Título",
+                    hint: "Ex: Dentista",
+                  ),
                   validator: (v) => v!.isEmpty ? "Informe um título" : null,
                 ),
                 const SizedBox(height: 16),
-                
+
                 // Endereço
                 TypeAheadField<PlaceSuggestion>(
-                  controller: _addressController, 
+                  controller: _addressController,
 
                   // 2. O BUILDER: Configura o campo de texto
-                  builder: (context, controller, focusNode) => 
-                    TextFormField(
-                      controller: controller, 
-                      focusNode: focusNode,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: _buildInputDecoration(
-                        "Endereço",
-                        hint: "Ex: Rua, numero, cidade",
-                      ).copyWith(
-                        suffixIcon: const Icon(Icons.search, color: AppColors.textPurple),
+                  builder:
+                      (context, controller, focusNode) => TextFormField(
+                        controller: controller,
+                        focusNode: focusNode,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: _buildInputDecoration(
+                          "Endereço",
+                          hint: "Ex: Rua, numero, cidade",
+                        ).copyWith(
+                          suffixIcon: const Icon(
+                            Icons.search,
+                            color: AppColors.textPurple,
+                          ),
+                        ),
+                        validator:
+                            (v) => v!.isEmpty ? "Informe um Endereço" : null,
                       ),
-                      validator: (v) => v!.isEmpty ? "Informe um Endereço" : null,
-                    ),
-                  
+
                   suggestionsCallback: (pattern) async {
-                    return await context.read<PlaceService>().getSuggestions(pattern);
+                    return await context.read<PlaceService>().getSuggestions(
+                      pattern,
+                    );
                   },
-                  
+
                   itemBuilder: (context, suggestion) {
                     return ListTile(
-                      leading: const Icon(Icons.location_on, color: AppColors.textPurple),
+                      leading: const Icon(
+                        Icons.location_on,
+                        color: AppColors.textPurple,
+                      ),
                       title: Text(
                         suggestion.address,
                         style: const TextStyle(color: Colors.black87),
                       ),
                     );
                   },
-                  
+
                   onSelected: (suggestion) {
-                    _addressController.text = suggestion.address; 
+                    _addressController.text = suggestion.address;
                     _selectedLatitude = suggestion.latitude;
                     _selectedLongitude = suggestion.longitude;
                   },
@@ -206,37 +219,51 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                       child: child,
                     );
                   },
-                  
-                  emptyBuilder: (context) => const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text("Nenhum endereço encontrado", style: TextStyle(color: Colors.grey)),
-                  ),
-                  
-                  loadingBuilder: (context) => const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: LinearProgressIndicator(color: AppColors.textPurple),
-                  ),
+
+                  emptyBuilder:
+                      (context) => const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Nenhum endereço encontrado",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+
+                  loadingBuilder:
+                      (context) => const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: LinearProgressIndicator(
+                          color: AppColors.textPurple,
+                        ),
+                      ),
                 ),
                 const SizedBox(height: 16),
 
-                // Seletores de Data e Hora (Linha única)
                 Row(
                   children: [
-                    // Data
                     Expanded(
-                      child: InkWell(
-                        onTap: _pickDate,
-                        child: InputDecorator(
-                          decoration: _buildInputDecoration("Data"),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                dateFormat.format(_selectedDate),
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                              const Icon(Icons.calendar_today, color: AppColors.textPurple, size: 20),
-                            ],
+                      child: Semantics(
+                        label:
+                            'Seletor de Data. Data atual: ${dateFormat.format(_selectedDate)}',
+                        button: true,
+                        child: InkWell(
+                          onTap: _pickDate,
+                          child: InputDecorator(
+                            decoration: _buildInputDecoration("Data"),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  dateFormat.format(_selectedDate),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                const Icon(
+                                  Icons.calendar_today,
+                                  color: AppColors.textPurple,
+                                  size: 20,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -244,31 +271,41 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                     const SizedBox(width: 12),
                     // Hora
                     Expanded(
-                      child: InkWell(
-                        onTap: _pickTime,
-                        child: InputDecorator(
-                          decoration: _buildInputDecoration("Hora"),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                _selectedTime.format(context),
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                              const Icon(Icons.access_time, color: AppColors.textPurple, size: 20),
-                            ],
+                      child: Semantics(
+                        label: 'Seletor de Hora. Hora atual: ${_selectedTime.format(context)}',
+                        button: true, // Diz que é um botão
+                        child: InkWell(
+                          onTap: _pickTime,
+                          child: InputDecorator(
+                            decoration: _buildInputDecoration("Hora"),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  _selectedTime.format(context),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                const Icon(
+                                  Icons.access_time,
+                                  color: AppColors.textPurple,
+                                  size: 20,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ],
                 ),
-                
+
                 const SizedBox(height: 16),
                 // Botão de Salvar
                 if (isLoading)
                   const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.textPurple),
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      AppColors.textPurple,
+                    ),
                   )
                 else
                   SizedBox(
@@ -285,7 +322,10 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                       onPressed: _saveForm,
                       child: const Text(
                         "Salvar Compromisso",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
