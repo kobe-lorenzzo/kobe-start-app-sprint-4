@@ -16,7 +16,7 @@ class _AiChatScreenState extends State<aiChatScreen> {
 
   final List<Map<String, dynamic>> _messages = [
     {
-      'text': 'Olá! Diga-me o que deseja agendar.\nEx: "Dentista amanhã as 10h na Av Paulista"',
+      'text': 'Olá! Diga-me o que deseja agendar.\nEx: "Dentista dia 25/12/2025 as 10h na Av Paulista"',
       'isUser': false,
     }
   ];
