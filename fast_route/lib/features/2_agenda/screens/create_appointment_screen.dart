@@ -8,25 +8,44 @@ import '../../../services/places_service.dart';
 import '../../../models/place_suggestion_model.dart';
 
 class CreateAppointmentScreen extends StatefulWidget {
-  const CreateAppointmentScreen({super.key});
+  final String? initialTitle;
+  final String? initialAddress;
+  final DateTime? initialDate;
+  final TimeOfDay? initialTime;
+
+  const CreateAppointmentScreen({
+    super.key, 
+    this.initialTitle, 
+    this.initialAddress,
+    this.initialDate,
+    this.initialTime,
+  });
 
   @override
-  State<CreateAppointmentScreen> createState() =>
-      _CreateAppointmentScreenState();
+  State<CreateAppointmentScreen> createState() => _CreateAppointmentScreenState();
 }
 
 class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final _titleController = TextEditingController();
-  final _addressController = TextEditingController();
+    late TextEditingController _titleController;
+    late TextEditingController _addressController;
 
-  double? _selectedLatitude;
-  double? _selectedLongitude;
+    double? _selectedLatitude;
+    double? _selectedLongitude;
 
-  DateTime _selectedDate = DateTime.now();
-  TimeOfDay _selectedTime = TimeOfDay.now();
+    late DateTime _selectedDate;
+    late TimeOfDay _selectedTime;
 
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: widget.initialTitle ?? '');
+    _addressController = TextEditingController(text: widget.initialAddress ?? '');
+    _selectedDate = widget.initialDate ?? DateTime.now();
+    _selectedTime = widget.initialTime ?? TimeOfDay.now();
+
+  }
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
       context: context,
