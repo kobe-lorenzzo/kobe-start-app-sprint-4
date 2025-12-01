@@ -55,7 +55,6 @@ class _AiChatScreenState extends State<aiChatScreen> {
     }
   }
   void _openCreateScreen(Map<String, dynamic> data) {
-    // Converte Strings para objetos Dart
     DateTime? dateObj;
     TimeOfDay? timeObj;
 
