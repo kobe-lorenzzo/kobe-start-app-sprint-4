@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../core/config/theme/app_colors.dart';
 import '../features/2_agenda/screens/scheduler_list_screen.dart';
 import '../features/3_map/screens/map_screen.dart';
+import '../features/4_ai_chat/ai_chat_screen.dart';
 
 class HomeWrapper extends StatefulWidget {
   const HomeWrapper({super.key});
@@ -16,6 +17,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
   static const List<Widget> _widgetOptions = <Widget>[
     AgendaListScreen(),
     MapScreen(),
+    aiChatScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -37,6 +39,10 @@ class _HomeWrapperState extends State<HomeWrapper> {
           BottomNavigationBarItem(
             icon: Icon(Icons.location_on),
             label: 'Mapa',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            label: 'IA Assistent',
           ),
         ],
         currentIndex: _selectedIndex,
